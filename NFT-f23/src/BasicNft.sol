@@ -8,7 +8,7 @@ contract BasicNft is ERC721{
     uint256 private s_tokenCounter; // storage variable, untuk menghitung banyaknya NFT
     mapping(uint256 => string) private s_tokenIdToUri;  // untuk memindahkan variable tokenID pada link tokenURI
 
-    constructor() ERC721("Dogie","DOG"){
+    constructor() ERC721("Dogie","DOG"){        // didapat dari konstuktor ERC721
         s_tokenCounter = 0;
     }
 
