@@ -1,12 +1,21 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.19;
-import {Script} from "../lib/forge-std/src/Script.sol";
+import {Script, console} from "../lib/forge-std/src/Script.sol";
 import {MoodNft} from "../src/MoodNft.sol";
 import {Base64} from "../lib/openzeppelin-contracts/contracts/utils/Base64.sol";    // use for encodeNfts to String
 
 contract DeployMoodNft is Script{
     function run() external returns(MoodNft){
+        string memory sadSvg = vm.readFile("./img/sad.svg");
+        string memory happySvg = vm.readFile("./img/happy.svg");
+        vm.startBroadcast();
+        MoodNft moodNft = new MoodNft(
+            svgToImageURI(sadSvg),
+            svgToImageURI(happySvg)
+        );
+        vm.stopBroadcast();
+        return moodNft;
 
     }
 
