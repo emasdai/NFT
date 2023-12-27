@@ -7,6 +7,8 @@ import {Base64} from "../lib/openzeppelin-contracts/contracts/utils/Base64.sol";
 
 contract MoodNft is ERC721{
 
+    error MoodNft_CantFlipMoodIfNotOwner();
+
     uint256 private s_tokenCounter = 0; // untuk menghitung banyaknya token
     string private s_sadSvgImageURI;
     string private s_happySvgImageURI;
@@ -33,6 +35,19 @@ contract MoodNft is ERC721{
         s_tokenCounter++;
     }
 
+    function flipMood(uint256 tokenId) public{
+        // hanya owner NFT yang bisa flip mood Nftnya
+        if (!isApprovedForAll(msg.sender, tokenId)){
+            revert MoodNft_CantFlipMoodIfNotOwner();
+        }
+
+        // jika happy maka akan flip ke sad dan sebaliknya
+        if (s_tokenIdToMood[tokenId] == Mood.HAPPY){
+            s_tokenIdToMood[tokenId] == Mood.SAD;
+        } else{
+            s_tokenIdToMood[tokenId] == Mood.HAPPY;
+        }
+    }
     function _baseURI() internal pure override returns(string memory){  // digunakan untuk base metadata
         return "data:application/json;base64,";
     }
